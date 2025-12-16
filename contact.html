@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Sinclaire Mbonda</title>
+    <meta name="description" content="Contactez Sinclaire Mbonda pour vos projets de développement logiciel. Disponible pour collaborations et opportunités professionnelles.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.js"></script>
+    <link href="https://unpkg.com/splitting@1.0.6/dist/splitting.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['Playfair Display', 'serif'],
+                        'body': ['Inter', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace']
+                    },
+                    colors: {
+                        'charcoal': '#1a1a1a',
+                        'warm-white': '#fafafa',
+                        'amber-accent': '#f59e0b',
+                        'teal-accent': '0d9488',
+                        'cool-gray': '#64748b'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #f59e0b, #0d9488);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-item {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            background: #f59e0b;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-item:hover::after,
+        .nav-item.active::after {
+            width: 100%;
+        }
+        
+        .form-input {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: rgba(245, 158, 11, 0.5);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+        
+        .form-input.error {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .form-step {
+            display: none;
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        
+        .form-step.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+            animation: slideIn 0.4s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .progress-bar {
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #0d9488);
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
+        
+        .contact-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .success-message {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        
+        .success-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .floating-icon {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.1;
+            pointer-events: none;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-charcoal text-warm-white font-body">
+    <!-- Floating Background Icons -->
+    <div id="floating-contact-icons" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-charcoal/90 backdrop-blur-sm border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="text-xl font-display font-bold gradient-text">SM</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="nav-item text-warm-white hover:text-amber-accent px-3 py-2 text-sm font-medium">Accueil</a>
+                        <a href="about.html" class="nav-item text-warm-white hover:text-amber-accent px-3 py-2 text-sm font-medium">À Propos</a>
+                        <a href="projects.html" class="nav-item text-warm-white hover:text-amber-accent px-3 py-2 text-sm font-medium">Projets</a>
+                        <a href="contact.html" class="nav-item text-amber-accent px-3 py-2 text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-warm-white hover:text-amber-accent">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 bg-gradient-to-b from-charcoal to-gray-900 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <h1 class="text-5xl md:text-6xl font-display font-bold mb-6 gradient-text">
+                    Me Contacter
+                </h1>
+                <p class="text-xl text-cool-gray max-w-3xl mx-auto">
+                    Disponible pour discuter de vos projets, opportunités de collaboration ou toute autre question professionnelle.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form & Info -->
+    <section class="py-20 bg-gray-900 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Contact Form -->
+                <div class="scroll-reveal">
+                    <div class="bg-gray-800 rounded-lg p-8 contact-card">
+                        <h2 class="text-3xl font-display font-bold mb-6 gradient-text">Envoyez-moi un message</h2>
+                        
+                        <!-- Progress Bar -->
+                        <div class="mb-8">
+                            <div class="bg-gray-700 rounded-full h-1">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="flex justify-between mt-2 text-xs text-cool-gray">
+                                <span>Étape 1</span>
+                                <span>Étape 2</span>
+                                <span>Étape 3</span>
+                            </div>
+                        </div>
+                        
+                        <form id="contact-form" class="space-y-6">
+                            <!-- Step 1: Type of Inquiry -->
+                            <div class="form-step active">
+                                <h3 class="text-xl font-semibold mb-4 text-amber-accent">Type de demande</h3>
+                                <div class="space-y-3">
+                                    <label class="flex items-center p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors">
+                                        <input type="radio" name="inquiry_type" value="job" class="mr-3 text-amber-accent" required>
+                                        <div>
+                                            <div class="font-medium">Opportunité d'emploi</div>
+                                            <div class="text-sm text-cool-gray">Proposition de poste ou collaboration</div>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors">
+                                        <input type="radio" name="inquiry_type" value="project" class="mr-3 text-amber-accent" required>
+                                        <div>
+                                            <div class="font-medium">Projet de développement</div>
+                                            <div class="text-sm text-cool-gray">Besoin de développement logiciel</div>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors">
+                                        <input type="radio" name="inquiry_type" value="consultation" class="mr-3 text-amber-accent" required>
+                                        <div>
+                                            <div class="font-medium">Consultation technique</div>
+                                            <div class="text-sm text-cool-gray">Conseils et expertise technique</div>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors">
+                                        <input type="radio" name="inquiry_type" value="other" class="mr-3 text-amber-accent" required>
+                                        <div>
+                                            <div class="font-medium">Autre</div>
+                                            <div class="text-sm text-cool-gray">Toute autre question</div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="flex justify-end mt-6">
+                                    <button type="button" class="next-step bg-amber-accent text-charcoal px-6 py-2 rounded-lg font-semibold hover:bg-opacity-90 transition-colors">
+                                        Suivant →
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2: Contact Information -->
+                            <div class="form-step">
+                                <h3 class="text-xl font-semibold mb-4 text-amber-accent">Vos coordonnées</h3>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Prénom *</label>
+                                        <input type="text" name="first_name" required 
+                                               class="form-input w-full px-4 py-2 rounded-lg text-warm-white placeholder-cool-gray">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Nom *</label>
+                                        <input type="text" name="last_name" required 
+                                               class="form-input w-full px-4 py-2 rounded-lg text-warm-white placeholder-cool-gray">
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <label class="block text-sm font-medium mb-2">Email *</label>
+                                    <input type="email" name="email" required 
+                                           class="form-input w-full px-4 py-2 rounded-lg text-warm-white placeholder-cool-gray">
+                                </div>
+                                <div class="mt-4">
+                                    <label class="block text-sm font-medium mb-2">Téléphone</label>
+                                    <input type="tel" name="phone" 
+                                           class="form-input w-full px-4 py-2 rounded-lg text-warm-white placeholder-cool-gray">
+                                </div>
+                                <div class="mt-4">
+                                    <label class="block text-sm font-medium mb-2">Entreprise/Organisation</label>
+                                    <input type="text" name="company" 
+                                           class="form-input w-full px-4 py-2 rounded-lg text-warm-white placeholder-cool-gray">
+                                </div>
+                                <div class="flex justify-between mt-6">
+                                    <button type="button" class="prev-step text-amber-accent hover:text-amber-400 font-semibold">
+                                        ← Précédent
+                                    </button>
+                                    <button type="button" class="next-step bg-amber-accent text-charcoal px-6 py-2 rounded-lg font-semibold hover:bg-opacity-90 transition-colors">
+                                        Suivant →
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 3: Project Details -->
+                            <div class="form-step">
+                                <h3 class="text-xl font-semibold mb-4 text-amber-accent">Détails du projet</h3>
+                                <div class="mt-4">
+                                    <label class="block text-sm font-medium mb-2">Sujet *</label>
+                                    <input type="text" name="subject" required 
+                                           class="form-input w-full px-4 py-2 rounded-lg text-warm-white placeholder-cool-gray">
+                                </div>
+                                <div class="mt-4">
+                                    <label class="block text-sm font-medium mb-2">Budget approximatif</label>
+                                    <select name="budget" class="form-input w-full px-4 py-2 rounded-lg text-warm-white">
+                                        <option value="">Sélectionner une fourchette</option>
+                                        <option value="<5000">< 5 000 €</option>
+                                        <option value="5000-15000">5 000 € - 15 000 €</option>
+                                        <option value="15000-50000">15 000 € - 50 000 €</option>
+                                        <option value=">50000">> 50 000 €</option>
+                                        <option value="discuss">À discuter</option>
+                                    </select>
+                                </div>
+                                <div class="mt-4">
+                                    <label class="block text-sm font-medium mb-2">Délai souhaité</label>
+                                    <select name="timeline" class="form-input w-full px-4 py-2 rounded-lg text-warm-white">
+                                        <option value="">Sélectionner un délai</option>
+                                        <option value="asap">Dès que possible</option>
+                                        <option value="1month">Dans 1 mois</option>
+                                        <option value="3months">Dans 3 mois</option>
+                                        <option value="6months">Dans 6 mois</option>
+                                        <option value="discuss">À discuter</option>
+                                    </select>
+                                </div>
+                                <div class="mt-4">
+                                    <label class="block text-sm font-medium mb-2">Message *</label>
+                                    <textarea name="message" rows="5" required 
+                                              class="form-input w-full px-4 py-2 rounded-lg text-warm-white placeholder-cool-gray resize-none"></textarea>
+                                </div>
+                                <div class="flex justify-between mt-6">
+                                    <button type="button" class="prev-step text-amber-accent hover:text-amber-400 font-semibold">
+                                        ← Précédent
+                                    </button>
+                                    <button type="submit" class="bg-amber-accent text-charcoal px-8 py-2 rounded-lg font-semibold hover:bg-opacity-90 transition-colors">
+                                        Envoyer le message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <!-- Success Message -->
+                        <div class="success-message text-center py-8">
+                            <div class="text-6xl mb-4">🎉</div>
+                            <h3 class="text-2xl font-display font-bold gradient-text mb-4">Message envoyé avec succès !</h3>
+                            <p class="text-cool-gray mb-6">
+                                Merci pour votre message. Je vous répondrai dans les plus brefs délais.
+                            </p>
+                            <button onclick="resetForm()" class="bg-amber-accent text-charcoal px-6 py-2 rounded-lg font-semibold hover:bg-opacity-90 transition-colors">
+                                Envoyer un nouveau message
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Information -->
+                <div class="scroll-reveal">
+                    <div class="space-y-8">
+                        <!-- Professional Info -->
+                        <div class="bg-gray-800 rounded-lg p-6 contact-card">
+                            <h3 class="text-2xl font-display font-bold mb-4 text-amber-accent">Informations Professionnelles</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-amber-accent/20 rounded-lg flex items-center justify-center mr-4">
+                                        <svg class="w-6 h-6 text-amber-accent" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium">Email</div>
+                                        <div class="text-cool-gray text-sm">issoftwareengineer@gmail.com</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-teal-accent/20 rounded-lg flex items-center justify-center mr-4">
+                                        <svg class="w-6 h-6 text-teal-accent" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium">Téléphone</div>
+                                        <div class="text-cool-gray text-sm">+237 678 89 68 22</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-amber-accent/20 rounded-lg flex items-center justify-center mr-4">
+                                        <svg class="w-6 h-6 text-amber-accent" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium">Localisation</div>
+                                        <div class="text-cool-gray text-sm">Douala, Cameroun</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-teal-accent/20 rounded-lg flex items-center justify-center mr-4">
+                                        <svg class="w-6 h-6 text-teal-accent" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium">Disponibilité</div>
+                                        <div class="text-cool-gray text-sm">Prêt à relocalisation</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Social Links -->
+                        <div class="bg-gray-800 rounded-lg p-6 contact-card">
+                            <h3 class="text-2xl font-display font-bold mb-4 text-teal-accent">Réseaux Professionnels</h3>
+                            <div class="space-y-4">
+                                <a href="#" class="flex items-center p-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
+                                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-4">
+                                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium">LinkedIn</div>
+                                        <div class="text-sm text-cool-gray">Profil professionnel</div>
+                                    </div>
+                                </a>
+                                
+                                <a href="#" class="flex items-center p-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
+                                    <div class="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center mr-4">
+                                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium">GitHub</div>
+                                        <div class="text-sm text-cool-gray">Code et projets</div>
+                                    </div>
+                                </a>
+                                
+                                <a href="mailto:issoftwareengineer@gmail.com" class="flex items-center p-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
+                                    <div class="w-10 h-10 bg-amber-accent rounded-lg flex items-center justify-center mr-4">
+                                        <svg class="w-5 h-5 text-charcoal" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium">Email</div>
+                                        <div class="text-sm text-cool-gray">issoftwareengineer@gmail.com</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Stats -->
+                        <div class="bg-gray-800 rounded-lg p-6 contact-card">
+                            <h3 class="text-2xl font-display font-bold mb-4 text-amber-accent">Statistiques</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold gradient-text">6+</div>
+                                    <div class="text-xs text-cool-gray">Années d'expérience</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold gradient-text">15+</div>
+                                    <div class="text-xs text-cool-gray">Projets réalisés</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold gradient-text">23K+</div>
+                                    <div class="text-xs text-cool-gray">Téléchargements</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold gradient-text">99%</div>
+                                    <div class="text-xs text-cool-gray">Satisfaction client</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 bg-gradient-to-r from-amber-accent to-teal-accent relative z-10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-display font-bold text-charcoal mb-6 scroll-reveal">
+                Prêt à démarrer votre projet ?
+            </h2>
+            <p class="text-xl text-charcoal/80 mb-8 scroll-reveal">
+                Transformons vos idées en solutions technologiques innovantes et performantes.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center scroll-reveal">
+                <a href="#contact-form" class="bg-charcoal text-warm-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300">
+                    Contactez-moi
+                </a>
+                <a href="projects.html" class="border-2 border-charcoal text-charcoal px-8 py-3 rounded-lg font-semibold hover:bg-charcoal hover:text-warm-white transition-all duration-300">
+                    Voir mes projets
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal py-12 border-t border-gray-800 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-2xl font-display font-bold gradient-text mb-4">Sinclaire Mbonda</div>
+                <p class="text-cool-gray mb-6">Ingénieur Logiciel Full-Stack</p>
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="mailto:issoftwareengineer@gmail.com" class="text-cool-gray hover:text-amber-accent transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-cool-gray hover:text-amber-accent transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-cool-gray hover:text-amber-accent transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+                <p class="text-sm text-cool-gray">
+                    © 2024 Sinclaire Mbonda. Tous droits réservés.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    
+    <script>
+        // Contact form specific functionality
+        let currentStep = 0;
+        const steps = document.querySelectorAll('.form-step');
+        const progressBar = document.querySelector('.progress-bar');
+        const form = document.getElementById('contact-form');
+        const successMessage = document.querySelector('.success-message');
+
+        // Update form step
+        function updateFormStep() {
+            steps.forEach((step, index) => {
+                step.classList.toggle('active', index === currentStep);
+            });
+            
+            // Update progress bar
+            const progress = ((currentStep + 1) / steps.length) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        // Next step button handlers
+        document.querySelectorAll('.next-step').forEach(button => {
+            button.addEventListener('click', () => {
+                if (validateStep(currentStep)) {
+                    currentStep++;
+                    updateFormStep();
+                }
+            });
+        });
+
+        // Previous step button handlers
+        document.querySelectorAll('.prev-step').forEach(button => {
+            button.addEventListener('click', () => {
+                currentStep--;
+                updateFormStep();
+            });
+        });
+
+        // Validate current step
+        function validateStep(stepIndex) {
+            const currentStepEl = steps[stepIndex];
+            const requiredFields = currentStepEl.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('error');
+                    isValid = false;
+                    AnimationUtils.shake(field);
+                } else {
+                    field.classList.remove('error');
+                }
+            });
+
+            // Special validation for radio buttons in step 1
+            if (stepIndex === 0) {
+                const inquiryType = document.querySelector('input[name="inquiry_type"]:checked');
+                if (!inquiryType) {
+                    isValid = false;
+                    // Shake the container
+                    AnimationUtils.shake(currentStepEl);
+                }
+            }
+
+            return isValid;
+        }
+
+        // Form submission
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (!validateStep(currentStep)) return;
+            
+            // Simulate form submission
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.textContent = 'Envoi en cours...';
+            submitBtn.disabled = true;
+
+            // Animate form out
+            anime({
+                targets: form,
+                opacity: 0,
+                translateY: -20,
+                duration: 400,
+                easing: 'easeOutCubic',
+                complete: () => {
+                    form.style.display = 'none';
+                    
+                    // Show success message
+                    successMessage.classList.add('show');
+                    
+                    anime({
+                        targets: successMessage,
+                        opacity: [0, 1],
+                        translateY: [20, 0],
+                        duration: 600,
+                        easing: 'easeOutCubic'
+                    });
+                }
+            });
+
+            // Reset button after animation
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+
+        // Reset form function
+        function resetForm() {
+            form.reset();
+            currentStep = 0;
+            updateFormStep();
+            
+            // Hide success message
+            anime({
+                targets: successMessage,
+                opacity: [1, 0],
+                translateY: [0, -20],
+                duration: 400,
+                easing: 'easeOutCubic',
+                complete: () => {
+                    successMessage.classList.remove('show');
+                    form.style.display = 'block';
+                    
+                    // Animate form in
+                    anime({
+                        targets: form,
+                        opacity: [0, 1],
+                        translateY: [20, 0],
+                        duration: 600,
+                        easing: 'easeOutCubic'
+                    });
+                }
+            });
+        }
+
+        // Floating icons animation
+        const contactIcons = ['📧', '💼', '🚀', '💻', '📱', '☁️', '🔧', '⚡'];
+        const floatingContainer = document.getElementById('floating-contact-icons');
+
+        contactIcons.forEach((icon, index) => {
+            const iconEl = document.createElement('div');
+            iconEl.className = 'floating-icon';
+            iconEl.textContent = icon;
+            iconEl.style.left = Math.random() * 100 + '%';
+            iconEl.style.top = Math.random() * 100 + '%';
+            iconEl.style.animationDelay = Math.random() * 15 + 's';
+            iconEl.style.animationDuration = (20 + Math.random() * 10) + 's';
+            
+            floatingContainer.appendChild(iconEl);
+        });
+
+        // Real-time validation
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('blur', () => {
+                if (input.hasAttribute('required') && !input.value.trim()) {
+                    input.classList.add('error');
+                } else {
+                    input.classList.remove('error');
+                }
+            });
+
+            input.addEventListener('input', () => {
+                if (input.classList.contains('error') && input.value.trim()) {
+                    input.classList.remove('error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

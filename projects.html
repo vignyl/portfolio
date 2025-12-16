@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projets - Sinclaire Mbonda</title>
+    <meta name="description" content="Portfolio de projets développés par Sinclaire Mbonda dans les domaines santé, finance et construction.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.js"></script>
+    <link href="https://unpkg.com/splitting@1.0.6/dist/splitting.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['Playfair Display', 'serif'],
+                        'body': ['Inter', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace']
+                    },
+                    colors: {
+                        'charcoal': '#1a1a1a',
+                        'warm-white': '#fafafa',
+                        'amber-accent': '#f59e0b',
+                        'teal-accent': '#0d9488',
+                        'cool-gray': '#64748b'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #f59e0b, #0d9488);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-item {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            background: #f59e0b;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-item:hover::after,
+        .nav-item.active::after {
+            width: 100%;
+        }
+        
+        .project-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-8px) rotateX(5deg);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: #f59e0b;
+            color: #1a1a1a;
+            transform: scale(1.05);
+        }
+        
+        .tech-tag {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-tag:hover {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: rgba(245, 158, 11, 0.5);
+        }
+        
+        .project-image {
+            transition: transform 0.3s ease;
+        }
+        
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: #1a1a1a;
+            border-radius: 12px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            margin: 20px;
+            border: 1px solid #374151;
+        }
+        
+        .search-input {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: rgba(245, 158, 11, 0.5);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-charcoal text-warm-white font-body">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-charcoal/90 backdrop-blur-sm border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="text-xl font-display font-bold gradient-text">SM</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="nav-item text-warm-white hover:text-amber-accent px-3 py-2 text-sm font-medium">Accueil</a>
+                        <a href="about.html" class="nav-item text-warm-white hover:text-amber-accent px-3 py-2 text-sm font-medium">À Propos</a>
+                        <a href="projects.html" class="nav-item text-amber-accent px-3 py-2 text-sm font-medium">Projets</a>
+                        <a href="contact.html" class="nav-item text-warm-white hover:text-amber-accent px-3 py-2 text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-warm-white hover:text-amber-accent">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 bg-gradient-to-b from-charcoal to-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <h1 class="text-5xl md:text-6xl font-display font-bold mb-6 gradient-text">
+                    Mes Projets
+                </h1>
+                <p class="text-xl text-cool-gray max-w-3xl mx-auto">
+                    Découvrez mes réalisations dans les domaines de la santé, du finance, de la construction et des technologies mobiles.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Filters & Search -->
+    <section class="py-12 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6">
+                <!-- Search -->
+                <div class="flex-1 max-w-md">
+                    <input type="text" id="project-search" placeholder="Rechercher un projet..." 
+                           class="search-input w-full px-4 py-2 rounded-lg text-warm-white placeholder-cool-gray">
+                </div>
+                
+                <!-- Filters -->
+                <div class="flex flex-wrap gap-3">
+                    <button class="filter-btn active px-4 py-2 rounded-lg bg-gray-800 text-warm-white hover:bg-amber-accent hover:text-charcoal" data-filter="all">
+                        Tous
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-800 text-warm-white hover:bg-amber-accent hover:text-charcoal" data-filter="healthcare">
+                        Santé
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-800 text-warm-white hover:bg-amber-accent hover:text-charcoal" data-filter="finance">
+                        Finance
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-800 text-warm-white hover:bg-amber-accent hover:text-charcoal" data-filter="construction">
+                        Construction
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-800 text-warm-white hover:bg-amber-accent hover:text-charcoal" data-filter="mobile">
+                        Mobile
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-800 text-warm-white hover:bg-amber-accent hover:text-charcoal" data-filter="web">
+                        Web
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Grid -->
+    <section class="py-20 bg-charcoal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- e-SAME Télémedecine -->
+                <div class="project-card bg-gray-800 rounded-lg overflow-hidden" 
+                     data-technologies="healthcare,mobile,flutter,net,react" 
+                     data-title="e-SAME Télémedecine">
+                    <div class="h-48 bg-gradient-to-br from-teal-accent to-amber-accent flex items-center justify-center overflow-hidden">
+                        <img src="resources/e-same-telemedicine.png" alt="e-SAME Télémedecine" 
+                             class="project-image w-32 h-32 object-cover rounded-lg">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-amber-accent">e-SAME Télémedecine</h3>
+                        <p class="text-cool-gray mb-4 text-sm">
+                            Plateforme de consultations médicales en ligne avec intégration de paiement sécurisé, prise de rendez-vous et vidéoconférence.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag px-2 py-1 text-xs rounded">Flutter</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">.NET Web API</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">Jitsi</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">Stripe</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="text-sm text-cool-gray">
+                                <span class="font-medium text-amber-accent">8 000+</span> utilisateurs
+                            </div>
+                            <button class="text-amber-accent hover:text-amber-400 text-sm font-medium" 
+                                    onclick="openModal('modal-telemedicine')">
+                                En savoir plus →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- e-SAME Home -->
+                <div class="project-card bg-gray-800 rounded-lg overflow-hidden" 
+                     data-technologies="healthcare,mobile,flutter,azure" 
+                     data-title="e-SAME Home">
+                    <div class="h-48 bg-gradient-to-br from-amber-accent to-teal-accent flex items-center justify-center overflow-hidden">
+                        <img src="resources/e-same-home.png" alt="e-SAME Home" 
+                             class="project-image w-32 h-32 object-cover rounded-lg">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-amber-accent">e-SAME Home</h3>
+                        <p class="text-cool-gray mb-4 text-sm">
+                            Service médical à domicile type Uber avec géolocalisation, suivi en temps réel et paiement intégré.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag px-2 py-1 text-xs rounded">Flutter</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">Azure</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">Stripe</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">Google Maps</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="text-sm text-cool-gray">
+                                <span class="font-medium text-amber-accent">10 000+</span> téléchargements
+                            </div>
+                            <button class="text-amber-accent hover:text-amber-400 text-sm font-medium" 
+                                    onclick="openModal('modal-home')">
+                                En savoir plus →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NiovarJob -->
+                <div class="project-card bg-gray-800 rounded-lg overflow-hidden" 
+                     data-technologies="web,mobile,flutter,net" 
+                     data-title="NiovarJob">
+                    <div class="h-48 bg-gradient-to-br from-teal-accent via-amber-accent to-teal-accent flex items-center justify-center overflow-hidden">
+                        <img src="resources/niovarjob.png" alt="NiovarJob" 
+                             class="project-image w-32 h-32 object-cover rounded-lg">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-amber-accent">NiovarJob</h3>
+                        <p class="text-cool-gray mb-4 text-sm">
+                            Application de recherche d'emploi avec algorithmes de recommandation personnalisée et matching intelligent.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag px-2 py-1 text-xs rounded">Flutter</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">.NET MVC</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">SQL Server</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">Machine Learning</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="text-sm text-cool-gray">
+                                <span class="font-medium text-amber-accent">5 000+</span> utilisateurs
+                            </div>
+                            <button class="text-amber-accent hover:text-amber-400 text-sm font-medium" 
+                                    onclick="openModal('modal-niovarjob')">
+                                En savoir plus →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NGC Financial Services -->
+                <div class="project-card bg-gray-800 rounded-lg overflow-hidden" 
+                     data-technologies="finance,mobile,react-native,zend" 
+                     data-title="NGC Financial Services">
+                    <div class="h-48 bg-gradient-to-br from-amber-accent to-teal-accent flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">💳</div>
+                            <div class="text-sm text-cool-gray">Application Financière</div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-amber-accent">NGC Financial Services</h3>
+                        <p class="text-cool-gray mb-4 text-sm">
+                            Application de transfert d'argent multiplateforme avec sécurité renforcée et taux de réussite de 99%.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag px-2 py-1 text-xs rounded">React-Native</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">Zend Framework</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">Firebase</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">Stripe</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="text-sm text-cool-gray">
+                                <span class="font-medium text-amber-accent">15 000</span> transactions/mois
+                            </div>
+                            <button class="text-amber-accent hover:text-amber-400 text-sm font-medium" 
+                                    onclick="openModal('modal-ngc')">
+                                En savoir plus →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suivi Infrastructures Sportives -->
+                <div class="project-card bg-gray-800 rounded-lg overflow-hidden" 
+                     data-technologies="construction,web,mobile,java,react-native" 
+                     data-title="Suivi Infrastructures Sportives">
+                    <div class="h-48 bg-gradient-to-br from-teal-accent to-amber-accent flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">🏟️</div>
+                            <div class="text-sm text-cool-gray">Monitoring Sportif</div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-amber-accent">Suivi Infrastructures Sportives</h3>
+                        <p class="text-cool-gray mb-4 text-sm">
+                            Solution web/mobile pour le ministère des sports avec centralisation des données de 200+ installations.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag px-2 py-1 text-xs rounded">Java Web</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">React-Native</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">SQL Server</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">REST API</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="text-sm text-cool-gray">
+                                <span class="font-medium text-amber-accent">200+</span> installations
+                            </div>
+                            <button class="text-amber-accent hover:text-amber-400 text-sm font-medium" 
+                                    onclick="openModal('modal-sports')">
+                                En savoir plus →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Outil Suivi Construction -->
+                <div class="project-card bg-gray-800 rounded-lg overflow-hidden" 
+                     data-technologies="construction,web,net,mvc" 
+                     data-title="Outil Suivi Construction">
+                    <div class="h-48 bg-gradient-to-br from-amber-accent to-teal-accent flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">🏗️</div>
+                            <div class="text-sm text-cool-gray">Gestion Chantiers</div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-amber-accent">Outil Suivi Construction</h3>
+                        <p class="text-cool-gray mb-4 text-sm">
+                            Plateforme de suivi des chantiers avec partage d'évolution aux clients et gestion complète des projets.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag px-2 py-1 text-xs rounded">.NET MVC</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">Bootstrap</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">SQL Server</span>
+                            <span class="tech-tag px-2 py-1 text-xs rounded">JavaScript</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="text-sm text-cool-gray">
+                                <span class="font-medium text-amber-accent">20%</span> nouveaux clients
+                            </div>
+                            <button class="text-amber-accent hover:text-amber-400 text-sm font-medium" 
+                                    onclick="openModal('modal-construction')">
+                                En savoir plus →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 bg-gradient-to-r from-amber-accent to-teal-accent">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-display font-bold text-charcoal mb-6 scroll-reveal">
+                Intéressé par mes projets ?
+            </h2>
+            <p class="text-xl text-charcoal/80 mb-8 scroll-reveal">
+                Disponible pour discuter de vos idées et réaliser vos projets les plus ambitieux.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center scroll-reveal">
+                <a href="contact.html" class="bg-charcoal text-warm-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300">
+                    Discutons de votre projet
+                </a>
+                <a href="about.html" class="border-2 border-charcoal text-charcoal px-8 py-3 rounded-lg font-semibold hover:bg-charcoal hover:text-warm-white transition-all duration-300">
+                    En savoir plus sur moi
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-2xl font-display font-bold gradient-text mb-4">Sinclaire Mbonda</div>
+                <p class="text-cool-gray mb-6">Ingénieur Logiciel Full-Stack</p>
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="mailto:issoftwareengineer@gmail.com" class="text-cool-gray hover:text-amber-accent transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-cool-gray hover:text-amber-accent transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-cool-gray hover:text-amber-accent transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+                <p class="text-sm text-cool-gray">
+                    © 2024 Sinclaire Mbonda. Tous droits réservés.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Modals -->
+    <!-- e-SAME Télémedecine Modal -->
+    <div id="modal-telemedicine" class="modal">
+        <div class="modal-content p-8">
+            <div class="flex justify-between items-start mb-6">
+                <h2 class="text-3xl font-display font-bold gradient-text">e-SAME Télémedecine</h2>
+                <button onclick="closeModal('modal-telemedicine')" class="text-cool-gray hover:text-amber-accent text-2xl">×</button>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <img src="resources/e-same-telemedicine.png" alt="e-SAME Télémedecine" class="w-full rounded-lg mb-4">
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-amber-accent mb-2">Objectif du Projet</h4>
+                            <p class="text-cool-gray text-sm">
+                                Créer une plateforme de télémédecine complète permettant aux patients de consulter des médecins en ligne de manière sécurisée et efficace.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-teal-accent mb-2">Fonctionnalités Clés</h4>
+                            <ul class="text-cool-gray text-sm space-y-1">
+                                <li>• Prise de rendez-vous en ligne</li>
+                                <li>• Consultations vidéo via Jitsi</li>
+                                <li>• Paiement sécurisé intégré</li>
+                                <li>• Dossier médical électronique</li>
+                                <li>• Ordonnances numériques</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-amber-accent mb-2">Technologies Utilisées</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="tech-tag px-3 py-1 text-sm">Flutter</span>
+                                <span class="tech-tag px-3 py-1 text-sm">.NET Web API</span>
+                                <span class="tech-tag px-3 py-1 text-sm">SQL Server</span>
+                                <span class="tech-tag px-3 py-1 text-sm">Jitsi</span>
+                                <span class="tech-tag px-3 py-1 text-sm">Stripe</span>
+                                <span class="tech-tag px-3 py-1 text-sm">Azure</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-teal-accent mb-2">Résultats</h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold gradient-text">8 000+</div>
+                                    <div class="text-xs text-cool-gray">Utilisateurs</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold gradient-text">50%</div>
+                                    <div class="text-xs text-cool-gray">Augmentation conversion</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold gradient-text">30%</div>
+                                    <div class="text-xs text-cool-gray">Réduction erreurs</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold gradient-text">95%</div>
+                                    <div class="text-xs text-cool-gray">Satisfaction client</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-amber-accent mb-2">Impact</h4>
+                            <p class="text-cool-gray text-sm">
+                                Cette plateforme a révolutionné l'accès aux soins médicaux en région, particulièrement pendant la pandémie COVID-19, en permettant des consultations à distance de qualité.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Other modals would follow similar structure -->
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('project-search');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            projectCards.forEach(card => {
+                const title = card.dataset.title.toLowerCase();
+                const technologies = card.dataset.technologies.toLowerCase();
+                const shouldShow = title.includes(searchTerm) || technologies.includes(searchTerm);
+                
+                if (shouldShow) {
+                    card.style.display = 'block';
+                    anime({
+                        targets: card,
+                        opacity: [0, 1],
+                        scale: [0.8, 1],
+                        duration: 400,
+                        easing: 'easeOutCubic'
+                    });
+                } else {
+                    anime({
+                        targets: card,
+                        opacity: [1, 0],
+                        scale: [1, 0.8],
+                        duration: 300,
+                        complete: () => {
+                            card.style.display = 'none';
+                        }
+                    });
+                }
+            });
+        });
+
+        // Modal functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on outside click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal.id);
+                }
+            });
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal.active').forEach(modal => {
+                    closeModal(modal.id);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

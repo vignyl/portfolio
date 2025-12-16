@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinclaire Mbonda - Ingénieur Logiciel Full-Stack</title>
+    <meta name="description" content="Développeur .NET, ReactJS & Flutter avec 6+ ans d'expérience dans les secteurs santé, finance et construction.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.js"></script>
+    <link href="https://unpkg.com/splitting@1.0.6/dist/splitting.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['Playfair Display', 'serif'],
+                        'body': ['Inter', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace']
+                    },
+                    colors: {
+                        'charcoal': '#1a1a1a',
+                        'warm-white': '#fafafa',
+                        'amber-accent': '#f59e0b',
+                        'teal-accent': '#0d9488',
+                        'cool-gray': '#64748b'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom animations and effects */
+        .gradient-text {
+            background: linear-gradient(135deg, #f59e0b, #0d9488);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .floating-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            pointer-events: none;
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .tech-badge {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-badge:hover {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: rgba(245, 158, 11, 0.5);
+            transform: scale(1.05);
+        }
+        
+        .nav-item {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            background: #f59e0b;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-item:hover::after,
+        .nav-item.active::after {
+            width: 100%;
+        }
+        
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .stats-counter {
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body class="bg-charcoal text-warm-white font-body">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-charcoal/90 backdrop-blur-sm border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-display font-bold gradient-text">SM</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="nav-item text-warm-white hover:text-amber-accent px-3 py-2 text-sm font-medium">Accueil</a>
+                        <a href="about.html" class="nav-item text-warm-white hover:text-amber-accent px-3 py-2 text-sm font-medium">À Propos</a>
+                        <a href="projects.html" class="nav-item text-warm-white hover:text-amber-accent px-3 py-2 text-sm font-medium">Projets</a>
+                        <a href="contact.html" class="nav-item text-warm-white hover:text-amber-accent px-3 py-2 text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-warm-white hover:text-amber-accent">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg min-h-screen flex items-center justify-center relative">
+        <div id="floating-icons" class="absolute inset-0"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="mb-8">
+                <h1 class="text-5xl md:text-7xl font-display font-bold mb-4">
+                    <span id="typed-name" class="gradient-text"></span>
+                </h1>
+                <div class="text-xl md:text-2xl font-medium text-cool-gray mb-6 h-16">
+                    <span id="typed-title"></span>
+                </div>
+                <p class="text-lg text-cool-gray max-w-2xl mx-auto mb-8 scroll-reveal">
+                    Développeur Full-Stack passionné avec 6+ ans d'expérience dans la conception et réalisation d'applications innovantes pour les secteurs santé, finance et construction.
+                </p>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12 scroll-reveal">
+                <a href="projects.html" class="bg-amber-accent text-charcoal px-8 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
+                    Voir mes Projets
+                </a>
+                <a href="contact.html" class="border-2 border-amber-accent text-amber-accent px-8 py-3 rounded-lg font-semibold hover:bg-amber-accent hover:text-charcoal transition-all duration-300">
+                    Me Contacter
+                </a>
+            </div>
+            
+            <!-- Professional Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto scroll-reveal">
+                <div class="text-center">
+                    <div class="text-3xl font-bold gradient-text stats-counter" data-target="6">0</div>
+                    <div class="text-sm text-cool-gray mt-1">Années d'expérience</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold gradient-text stats-counter" data-target="15">0</div>
+                    <div class="text-sm text-cool-gray mt-1">Projets réalisés</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold gradient-text stats-counter" data-target="23000">0</div>
+                    <div class="text-sm text-cool-gray mt-1">Téléchargements</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold gradient-text stats-counter" data-target="99">0</div>
+                    <div class="text-sm text-cool-gray mt-1">% de satisfaction</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 scroll-indicator">
+            <div class="w-6 h-10 border-2 border-amber-accent rounded-full flex justify-center">
+                <div class="w-1 h-3 bg-amber-accent rounded-full mt-2 animate-pulse"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Overview -->
+    <section class="py-20 bg-gradient-to-b from-charcoal to-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-4xl font-display font-bold mb-4 gradient-text">Compétences Techniques</h2>
+                <p class="text-lg text-cool-gray max-w-2xl mx-auto">
+                    Expertise en développement full-stack avec une spécialisation dans les technologies modernes et performantes.
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Skills Radar Chart -->
+                <div class="scroll-reveal">
+                    <div id="skills-radar" style="width: 100%; height: 400px;"></div>
+                </div>
+                
+                <!-- Technology Stack -->
+                <div class="scroll-reveal">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <h3 class="text-xl font-semibold mb-4 text-amber-accent">Frontend</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="tech-badge px-3 py-1 rounded-full text-sm">ReactJS</span>
+                                <span class="tech-badge px-3 py-1 rounded-full text-sm">Flutter</span>
+                                <span class="tech-badge px-3 py-1 rounded-full text-sm">JavaScript</span>
+                                <span class="tech-badge px-3 py-1 rounded-full text-sm">HTML/CSS</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <h3 class="text-xl font-semibold mb-4 text-teal-accent">Backend</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="tech-badge px-3 py-1 rounded-full text-sm">.NET Core</span>
+                                <span class="tech-badge px-3 py-1 rounded-full text-sm">C#</span>
+                                <span class="tech-badge px-3 py-1 rounded-full text-sm">SQL Server</span>
+                                <span class="tech-badge px-3 py-1 rounded-full text-sm">Azure</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 p-6 bg-gray-800 rounded-lg">
+                        <h4 class="text-lg font-semibold mb-3 text-amber-accent">Certifications</h4>
+                        <ul class="space-y-2 text-cool-gray">
+                            <li class="flex items-center"><span class="text-amber-accent mr-2">✓</span> English Emerson Certificate</li>
+                            <li class="flex items-center"><span class="text-amber-accent mr-2">✓</span> Gestion de Projet Agile</li>
+                            <li class="flex items-center"><span class="text-amber-accent mr-2">✓</span> Sécurité API REST (JWT, OAuth 2.0)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-4xl font-display font-bold mb-4 gradient-text">Projets Vedettes</h2>
+                <p class="text-lg text-cool-gray max-w-2xl mx-auto">
+                    Découvrez mes projets les plus innovants dans les domaines de la santé, du finance et de la construction.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1: e-SAME Télémedecine -->
+                <div class="project-card card-hover bg-gray-800 rounded-lg overflow-hidden stagger-item">
+                    <div class="h-48 bg-gradient-to-br from-teal-accent to-amber-accent flex items-center justify-center">
+                        <img src="resources/e-same-telemedicine.png" alt="e-SAME Télémedecine" class="w-32 h-32 object-cover rounded-lg">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-amber-accent">e-SAME Télémedecine</h3>
+                        <p class="text-cool-gray mb-4">Plateforme de consultations médicales en ligne avec intégration de paiement sécurisé et vidéoconférence.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-badge px-2 py-1 text-xs">Flutter</span>
+                            <span class="tech-badge px-2 py-1 text-xs">.NET Web API</span>
+                            <span class="tech-badge px-2 py-1 text-xs">Jitsi</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-cool-gray">8 000+ utilisateurs</span>
+                            <a href="projects.html" class="text-amber-accent hover:text-amber-400 text-sm font-medium">En savoir plus →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2: e-SAME Home -->
+                <div class="project-card card-hover bg-gray-800 rounded-lg overflow-hidden stagger-item">
+                    <div class="h-48 bg-gradient-to-br from-amber-accent to-teal-accent flex items-center justify-center">
+                        <img src="resources/e-same-home.png" alt="e-SAME Home" class="w-32 h-32 object-cover rounded-lg">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-amber-accent">e-SAME Home</h3>
+                        <p class="text-cool-gray mb-4">Service médical à domicile type Uber avec suivi en temps réel et géolocalisation.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-badge px-2 py-1 text-xs">Flutter</span>
+                            <span class="tech-badge px-2 py-1 text-xs">Azure</span>
+                            <span class="tech-badge px-2 py-1 text-xs">Stripe</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-cool-gray">10 000+ téléchargements</span>
+                            <a href="projects.html" class="text-amber-accent hover:text-amber-400 text-sm font-medium">En savoir plus →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3: NiovarJob -->
+                <div class="project-card card-hover bg-gray-800 rounded-lg overflow-hidden stagger-item">
+                    <div class="h-48 bg-gradient-to-br from-teal-accent via-amber-accent to-teal-accent flex items-center justify-center">
+                        <img src="resources/niovarjob.png" alt="NiovarJob" class="w-32 h-32 object-cover rounded-lg">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-amber-accent">NiovarJob</h3>
+                        <p class="text-cool-gray mb-4">Application de recherche d'emploi avec algorithmes de recommandation personnalisée.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-badge px-2 py-1 text-xs">Flutter</span>
+                            <span class="tech-badge px-2 py-1 text-xs">.NET MVC</span>
+                            <span class="tech-badge px-2 py-1 text-xs">SQL Server</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-cool-gray">5 000+ utilisateurs</span>
+                            <a href="projects.html" class="text-amber-accent hover:text-amber-400 text-sm font-medium">En savoir plus →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 scroll-reveal">
+                <a href="projects.html" class="bg-amber-accent text-charcoal px-8 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
+                    Voir tous les projets
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 bg-gradient-to-r from-amber-accent to-teal-accent">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-display font-bold text-charcoal mb-6 scroll-reveal">
+                Prêt à collaborer ?
+            </h2>
+            <p class="text-xl text-charcoal/80 mb-8 scroll-reveal">
+                Disponible pour des opportunités de développement full-stack, en télétravail ou avec relocation.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center scroll-reveal">
+                <a href="contact.html" class="bg-charcoal text-warm-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300">
+                    Discutons de votre projet
+                </a>
+                <a href="about.html" class="border-2 border-charcoal text-charcoal px-8 py-3 rounded-lg font-semibold hover:bg-charcoal hover:text-warm-white transition-all duration-300">
+                    En savoir plus sur moi
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-2xl font-display font-bold gradient-text mb-4">Sinclaire Mbonda</div>
+                <p class="text-cool-gray mb-6">Ingénieur Logiciel Full-Stack</p>
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="mailto:issoftwareengineer@gmail.com" class="text-cool-gray hover:text-amber-accent transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-cool-gray hover:text-amber-accent transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-cool-gray hover:text-amber-accent transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+                <p class="text-sm text-cool-gray">
+                    © 2024 Sinclaire Mbonda. Tous droits réservés.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    
+    <script>
+        // Initialize counter animations when stats section is visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.stats-counter');
+                    counters.forEach(counter => {
+                        const target = parseInt(counter.dataset.target);
+                        AnimationUtils.animateCounter(counter, target);
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        // Observe stats section
+        const statsSection = document.querySelector('.stats-counter').closest('section');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+    </script>
+</body>
+</html>

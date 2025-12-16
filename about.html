@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À Propos - Sinclaire Mbonda</title>
+    <meta name="description" content="En savoir plus sur mon parcours, mes compétences et mon expérience en développement logiciel.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.js"></script>
+    <link href="https://unpkg.com/splitting@1.0.6/dist/splitting.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['Playfair Display', 'serif'],
+                        'body': ['Inter', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace']
+                    },
+                    colors: {
+                        'charcoal': '#1a1a1a',
+                        'warm-white': '#fafafa',
+                        'amber-accent': '#f59e0b',
+                        'teal-accent': '#0d9488',
+                        'cool-gray': '#64748b'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #f59e0b, #0d9488);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: #f59e0b;
+            border-radius: 50%;
+            border: 3px solid #1a1a1a;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 1.5rem;
+            width: 2px;
+            height: calc(100% - 1rem);
+            background: linear-gradient(to bottom, #f59e0b, transparent);
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .skill-bar {
+            height: 8px;
+            background: rgba(245, 158, 11, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #f59e0b, #0d9488);
+            border-radius: 4px;
+            transition: width 1s ease-out;
+        }
+        
+        .nav-item {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            background: #f59e0b;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-item:hover::after,
+        .nav-item.active::after {
+            width: 100%;
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-charcoal text-warm-white font-body">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-charcoal/90 backdrop-blur-sm border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="text-xl font-display font-bold gradient-text">SM</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="nav-item text-warm-white hover:text-amber-accent px-3 py-2 text-sm font-medium">Accueil</a>
+                        <a href="about.html" class="nav-item text-amber-accent px-3 py-2 text-sm font-medium">À Propos</a>
+                        <a href="projects.html" class="nav-item text-warm-white hover:text-amber-accent px-3 py-2 text-sm font-medium">Projets</a>
+                        <a href="contact.html" class="nav-item text-warm-white hover:text-amber-accent px-3 py-2 text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-warm-white hover:text-amber-accent">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 bg-gradient-to-b from-charcoal to-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <h1 class="text-5xl md:text-6xl font-display font-bold mb-6 gradient-text">
+                    À Propos de Moi
+                </h1>
+                <p class="text-xl text-cool-gray max-w-3xl mx-auto">
+                    Passionné par l'innovation technologique, je transforme les idées complexes en solutions logicielles performantes et intuitives.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Summary -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="scroll-reveal">
+                    <div class="bg-gray-800 rounded-lg p-8 card-hover">
+                        <h2 class="text-3xl font-display font-bold mb-6 gradient-text">Profil Professionnel</h2>
+                        <div class="space-y-4 text-cool-gray">
+                            <p>
+                                Ingénieur logiciel bilingue (français, anglais) avec plus de 6 ans d'expérience dans la conception et réalisation d'applications full-stack (front-end, back-end, mobile et bases de données) pour les secteurs santé, finance et construction.
+                            </p>
+                            <p>
+                                Expertise en intégration d'API, optimisation de performances et méthodologies Agile. J'ai démontré des résultats concrets en augmentation de trafic, réduction de coûts et satisfaction client.
+                            </p>
+                            <p>
+                                Agissant en tant que chef d'équipe (Tech Lead), je guide les développeurs vers l'excellence technique tout en assurant la livraison de projets de haute qualité dans les délais impartis.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="scroll-reveal">
+                    <div class="bg-gray-800 rounded-lg p-8 card-hover">
+                        <h3 class="text-2xl font-display font-bold mb-6 text-amber-accent">Informations Personnelles</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between">
+                                <span class="text-cool-gray">Nom:</span>
+                                <span class="font-medium">Sinclaire Mbonda</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-cool-gray">Localisation:</span>
+                                <span class="font-medium">Douala, Cameroun</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-cool-gray">Disponibilité:</span>
+                                <span class="font-medium text-amber-accent">Prêt à relocalisation</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-cool-gray">Langues:</span>
+                                <span class="font-medium">Français, Anglais, Chinois</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-cool-gray">Permis:</span>
+                                <span class="font-medium">Catégorie B</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 pt-6 border-t border-gray-700">
+                            <h4 class="text-lg font-semibold mb-3 text-amber-accent">Centres d'intérêt</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-gray-700 px-3 py-1 rounded-full text-sm">Jeux vidéo</span>
+                                <span class="bg-gray-700 px-3 py-1 rounded-full text-sm">Développement logiciel</span>
+                                <span class="bg-gray-700 px-3 py-1 rounded-full text-sm">Football</span>
+                                <span class="bg-gray-700 px-3 py-1 rounded-full text-sm">Tourisme</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Skills -->
+    <section class="py-20 bg-charcoal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-4xl font-display font-bold mb-4 gradient-text">Compétences Techniques</h2>
+                <p class="text-lg text-cool-gray max-w-2xl mx-auto">
+                    Une expertise approfondie dans les technologies modernes du développement full-stack.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Programming Languages -->
+                <div class="bg-gray-800 rounded-lg p-6 card-hover scroll-reveal">
+                    <h3 class="text-xl font-semibold mb-4 text-amber-accent">Langages de Programmation</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>C#</span>
+                                <span class="text-cool-gray">95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>JavaScript</span>
+                                <span class="text-cool-gray">90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>SQL</span>
+                                <span class="text-cool-gray">88%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="88"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Dart</span>
+                                <span class="text-cool-gray">85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Frameworks -->
+                <div class="bg-gray-800 rounded-lg p-6 card-hover scroll-reveal">
+                    <h3 class="text-xl font-semibold mb-4 text-teal-accent">Frameworks & Bibliothèques</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>.NET Core</span>
+                                <span class="text-cool-gray">95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>ReactJS</span>
+                                <span class="text-cool-gray">90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Flutter</span>
+                                <span class="text-cool-gray">85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Entity Framework</span>
+                                <span class="text-cool-gray">88%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="88"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tools & Platforms -->
+                <div class="bg-gray-800 rounded-lg p-6 card-hover scroll-reveal">
+                    <h3 class="text-xl font-semibold mb-4 text-amber-accent">Outils & Plateformes</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Azure DevOps</span>
+                                <span class="text-cool-gray">85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Git</span>
+                                <span class="text-cool-gray">92%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="92"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Docker</span>
+                                <span class="text-cool-gray">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="75"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>JIRA</span>
+                                <span class="text-cool-gray">90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Skills -->
+            <div class="mt-12 grid md:grid-cols-2 gap-8">
+                <div class="bg-gray-800 rounded-lg p-6 card-hover scroll-reveal">
+                    <h3 class="text-xl font-semibold mb-4 text-teal-accent">Méthodologies</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="flex items-center">
+                            <span class="text-amber-accent mr-2">•</span>
+                            <span>Agile (SCRUM)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-amber-accent mr-2">•</span>
+                            <span>TDD</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-amber-accent mr-2">•</span>
+                            <span>CI/CD</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-amber-accent mr-2">•</span>
+                            <span>UML</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800 rounded-lg p-6 card-hover scroll-reveal">
+                    <h3 class="text-xl font-semibold mb-4 text-amber-accent">Sécurité & Intégration</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="flex items-center">
+                            <span class="text-amber-accent mr-2">•</span>
+                            <span>JWT & OAuth 2.0</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-amber-accent mr-2">•</span>
+                            <span>Chiffrement AES</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-amber-accent mr-2">•</span>
+                            <span>API REST</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-amber-accent mr-2">•</span>
+                            <span>GraphQL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Experience -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-4xl font-display font-bold mb-4 gradient-text">Expérience Professionnelle</h2>
+                <p class="text-lg text-cool-gray max-w-2xl mx-auto">
+                    Un parcours riche et varié dans le développement de solutions innovantes.
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <!-- Current Position -->
+                <div class="timeline-item mb-12 scroll-reveal">
+                    <div class="bg-gray-800 rounded-lg p-6 card-hover">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-amber-accent">Développeur Full-Stack .NET, ReactJS & Flutter</h3>
+                                <p class="text-lg font-medium">e-SAME • Février 2021 - Présent</p>
+                            </div>
+                            <span class="text-sm text-cool-gray bg-gray-700 px-3 py-1 rounded-full mt-2 md:mt-0">Actuel</span>
+                        </div>
+                        <p class="text-cool-gray mb-4">
+                            Mise à niveau du back-end WCF vers Web API, conception des applications mobiles e-SAME Télémédecine et e-SAME Home. Agissant comme Tech Lead, je guide une équipe de 4 développeurs dans la réalisation de projets innovants.
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-semibold mb-2 text-amber-accent">Réalisations clés:</h4>
+                                <ul class="text-sm text-cool-gray space-y-1">
+                                    <li>• Plateforme médicale augmentant le taux de conversion de 50%</li>
+                                    <li>• Applications mobiles avec 10 000+ téléchargements</li>
+                                    <li>• Réduction des erreurs de transaction de 30%</li>
+                                    <li>• Respect de 95% des délais de livraison</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-2 text-teal-accent">Technologies:</h4>
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="bg-gray-700 px-2 py-1 rounded text-xs">ReactJS</span>
+                                    <span class="bg-gray-700 px-2 py-1 rounded text-xs">.NET Core</span>
+                                    <span class="bg-gray-700 px-2 py-1 rounded text-xs">Flutter</span>
+                                    <span class="bg-gray-700 px-2 py-1 rounded text-xs">Azure</span>
+                                    <span class="bg-gray-700 px-2 py-1 rounded text-xs">Stripe</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Previous Experience -->
+                <div class="timeline-item mb-12 scroll-reveal">
+                    <div class="bg-gray-800 rounded-lg p-6 card-hover">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-amber-accent">Ingénieur Logiciel (Télétravail)</h3>
+                                <p class="text-lg font-medium">Les Professionnels Aidants • Janvier 2022 - Mai 2022</p>
+                            </div>
+                            <span class="text-sm text-cool-gray bg-gray-700 px-3 py-1 rounded-full mt-2 md:mt-0">Canada</span>
+                        </div>
+                        <p class="text-cool-gray mb-4">
+                            Refonte de la plateforme de recherche d'emploi NiovarJobs et développement d'une plateforme de vente aux enchères avec paiement post-paid.
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-semibold mb-2 text-amber-accent">Contributions:</h4>
+                                <ul class="text-sm text-cool-gray space-y-1">
+                                    <li>• Algorithmes de recommandation personnalisée</li>
+                                    <li>• Communication instantanée (Chat)</li>
+                                    <li>• Collaboration internationale via Jira/Slack</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-2 text-teal-accent">Stack technique:</h4>
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="bg-gray-700 px-2 py-1 rounded text-xs">JavaScript</span>
+                                    <span class="bg-gray-700 px-2 py-1 rounded text-xs">.NET MVC</span>
+                                    <span class="bg-gray-700 px-2 py-1 rounded text-xs">React-Native</span>
+                                    <span class="bg-gray-700 px-2 py-1 rounded text-xs">SignalR</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item mb-12 scroll-reveal">
+                    <div class="bg-gray-800 rounded-lg p-6 card-hover">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-amber-accent">Développeur Logiciel</h3>
+                                <p class="text-lg font-medium">Batir Construction Services • Février 2020 - Février 2021</p>
+                            </div>
+                            <span class="text-sm text-cool-gray bg-gray-700 px-3 py-1 rounded-full mt-2 md:mt-0">Cameroun</span>
+                        </div>
+                        <p class="text-cool-gray mb-4">
+                            Création d'un outil de suivi de projets de construction, générant 20% de nouveaux clients et automatisant les rapports de progression.
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-semibold mb-2 text-amber-accent">Impact:</h4>
+                                <ul class="text-sm text-cool-gray space-y-1">
+                                    <li>• Réduction du temps administratif de 15h/mois</li>
+                                    <li>• Partage d'évolution avec les clients</li>
+                                    <li>• Collaboration avec ingénieurs BTP</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-2 text-teal-accent">Technologies:</h4>
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="bg-gray-700 px-2 py-1 rounded text-xs">.NET MVC</span>
+                                    <span class="bg-gray-700 px-2 py-1 rounded text-xs">Bootstrap</span>
+                                    <span class="bg-gray-700 px-2 py-1 rounded text-xs">SQL Server</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education -->
+    <section class="py-20 bg-charcoal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-4xl font-display font-bold mb-4 gradient-text">Formation Académique</h2>
+                <p class="text-lg text-cool-gray max-w-2xl mx-auto">
+                    Une formation solide en ingénierie informatique avec une orientation internationale.
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto space-y-8">
+                <div class="bg-gray-800 rounded-lg p-8 card-hover scroll-reveal">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                        <div>
+                            <h3 class="text-2xl font-display font-bold text-amber-accent">Master en Ingénierie Informatique</h3>
+                            <p class="text-lg font-medium">Beijing Institute of Graphic Communication (Chine)</p>
+                        </div>
+                        <span class="text-sm text-cool-gray bg-gray-700 px-3 py-1 rounded-full mt-2 md:mt-0">2020 - 2022</span>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold mb-2 text-teal-accent">Spécialisations:</h4>
+                            <ul class="text-cool-gray space-y-1">
+                                <li>• Architecture logicielle</li>
+                                <li>• Machine Learning</li>
+                                <li>• Big Data</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2 text-amber-accent">Résultats:</h4>
+                            <p class="text-cool-gray">GPA: 3.49 / 4.0</p>
+                            <p class="text-sm text-cool-gray mt-2">Mention: Architecture logicielle, Machine Learning, Big Data</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800 rounded-lg p-8 card-hover scroll-reveal">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                        <div>
+                            <h3 class="text-2xl font-display font-bold text-amber-accent">Diplôme d'Analyste Programmeur de Logiciel</h3>
+                            <p class="text-lg font-medium">Institut Africain d'Informatique (IAI), Cameroun</p>
+                        </div>
+                        <span class="text-sm text-cool-gray bg-gray-700 px-3 py-1 rounded-full mt-2 md:mt-0">2015 - 2018</span>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold mb-2 text-teal-accent">Filière:</h4>
+                            <p class="text-cool-gray">Génie Logiciel</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2 text-amber-accent">Formation:</h4>
+                            <p class="text-cool-gray">Analyse et conception de logiciels, Programmation orientée objet</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800 rounded-lg p-8 card-hover scroll-reveal">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                        <div>
+                            <h3 class="text-2xl font-display font-bold text-amber-accent">Baccalauréat</h3>
+                            <p class="text-lg font-medium">Collège St Thomas d'Aquin</p>
+                        </div>
+                        <span class="text-sm text-cool-gray bg-gray-700 px-3 py-1 rounded-full mt-2 md:mt-0">2015</span>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2 text-teal-accent">Série:</h4>
+                        <p class="text-cool-gray">Mathématiques et Physique</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 bg-gradient-to-r from-amber-accent to-teal-accent">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-display font-bold text-charcoal mb-6 scroll-reveal">
+                Intéressé par mon profil ?
+            </h2>
+            <p class="text-xl text-charcoal/80 mb-8 scroll-reveal">
+                Disponible pour discuter de vos projets et opportunités de collaboration.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center scroll-reveal">
+                <a href="contact.html" class="bg-charcoal text-warm-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300">
+                    Me Contacter
+                </a>
+                <a href="projects.html" class="border-2 border-charcoal text-charcoal px-8 py-3 rounded-lg font-semibold hover:bg-charcoal hover:text-warm-white transition-all duration-300">
+                    Voir mes Projets
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-2xl font-display font-bold gradient-text mb-4">Sinclaire Mbonda</div>
+                <p class="text-cool-gray mb-6">Ingénieur Logiciel Full-Stack</p>
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="mailto:issoftwareengineer@gmail.com" class="text-cool-gray hover:text-amber-accent transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-cool-gray hover:text-amber-accent transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-cool-gray hover:text-amber-accent transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+                <p class="text-sm text-cool-gray">
+                    © 2024 Sinclaire Mbonda. Tous droits réservés.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    
+    <script>
+        // Animate skill bars when they come into view
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBars = entry.target.querySelectorAll('.skill-progress');
+                    progressBars.forEach(bar => {
+                        const width = bar.dataset.width;
+                        setTimeout(() => {
+                            bar.style.width = width + '%';
+                        }, 200);
+                    });
+                    skillObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        // Observe all skill sections
+        document.querySelectorAll('.skill-progress').forEach(bar => {
+            skillObserver.observe(bar.closest('.scroll-reveal'));
+        });
+    </script>
+</body>
+</html>
