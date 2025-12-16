@@ -630,12 +630,87 @@
 
             return isValid;
         }
+        
+        // --- FONCTION UTILITAIRE POUR GÉNÉRER LE MESSAGE ---
+        const generateWhatsAppMessage = (formElement) => {
+            const formData = new FormData(formElement);
+            let message = "📝 *Nouveau contact via le site web* 📝\n\n";
 
+            // Mappage pour un affichage lisible
+            const inquiryTypeMap = {
+                'job': 'Opportunité d\'emploi',
+                'project': 'Projet de développement',
+                'consultation': 'Consultation technique',
+                'other': 'Autre'
+            };
+            
+            // Mappage pour le délai
+            const timelineMap = {
+                'asap': 'Dès que possible', 
+                '1month': 'Dans 1 mois', 
+                '3months': 'Dans 3 mois', 
+                '6months': 'Dans 6 mois', 
+                'discuss': 'À discuter'
+            };
+
+            // --- Remplissage des données ---
+            
+            // Step 1
+            const inquiryType = formData.get('inquiry_type');
+            message += "--- *Type de Demande* ---\n";
+            message += `Type : ${inquiryTypeMap[inquiryType] || inquiryType}\n\n`;
+
+            // Step 2
+            message += "--- *Coordonnées* ---\n";
+            message += `Prénom & Nom : ${formData.get('first_name') || 'Non renseigné'} ${formData.get('last_name') || ''}\n`;
+            message += `Email : ${formData.get('email') || 'Non renseigné'}\n`;
+            
+            const phone = formData.get('phone');
+            if (phone) {
+                message += `Téléphone : ${phone}\n`;
+            }
+            
+            const company = formData.get('company');
+            if (company) {
+                message += `Entreprise : ${company}\n`;
+            }
+            message += "\n";
+
+            // Step 3
+            message += "--- *Détails du Projet* ---\n";
+            message += `Sujet : ${formData.get('subject') || 'Non renseigné'}\n`;
+            
+            const budget = formData.get('budget');
+            if (budget) {
+                message += `Budget : ${budget}\n`;
+            }
+            
+            const timeline = formData.get('timeline');
+            if (timeline) {
+                message += `Délai souhaité : ${timelineMap[timeline] || timeline}\n`;
+            }
+            
+            message += `\n*Message détaillé :*\n`;
+            message += `${formData.get('message') || 'Message vide'}\n\n`;
+            
+            message += "-----------------\n*Merci !*";
+            
+            // Retourne le message encodé pour l'URL
+            return encodeURIComponent(message);
+        };
         // Form submission
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             
             if (!validateStep(currentStep)) return;
+            // Numéro de téléphone cible pour WhatsApp (Cameroun)
+            const phoneNumber = "237690087285";  
+            // 1. Générer le message formaté et encodé
+            const encodedMessage = generateWhatsAppMessage(form); 
+            // 2. Créer le lien WhatsApp
+            const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`; 
+            // 3. Ouvrir le lien dans un nouvel onglet
+            window.open(whatsappLink, '_blank');
             
             // Simulate form submission
             const submitBtn = form.querySelector('button[type="submit"]');
