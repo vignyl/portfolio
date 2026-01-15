@@ -431,6 +431,12 @@ class PortfolioAnimations {
     }
 }
 
+const btn  = document.getElementById('nav-toggle');
+const menu = document.getElementById('mobile-menu');
+
+btn.addEventListener('click', () => {
+  menu.classList.toggle('hidden');
+});
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     PortfolioAnimations.fadeInPage();

@@ -209,7 +209,9 @@
             </div>
           </div>
           <div class="md:hidden">
-            <button class="text-warm-white hover:text-amber-accent">
+            <button
+            id="nav-toggle"
+            class="text-warm-white hover:text-amber-accent focus:outline-none">
               <svg
                 class="h-6 w-6"
                 fill="none"
@@ -224,6 +226,34 @@
                 />
               </svg>
             </button>
+          </div>
+          <!-- menu mobile -->
+          <div
+            id="mobile-menu"
+            class="md:hidden hidden absolute top-16 inset-x-0 bg-charcoal/95 backdrop-blur-sm border-b border-gray-800"
+          >
+            <div class="px-2 pt-2 pb-3 space-y-1">
+              <a
+                href="#home"
+                class="block px-3 py-2 text-warm-white hover:text-amber-accent"
+                >Accueil</a
+              >
+              <a
+                href="about.html"
+                class="block px-3 py-2 text-warm-white hover:text-amber-accent"
+                >À Propos</a
+              >
+              <a
+                href="projects.html"
+                class="block px-3 py-2 text-warm-white hover:text-amber-accent"
+                >Projets</a
+              >
+              <a
+                href="contact.html"
+                class="block px-3 py-2 text-warm-white hover:text-amber-accent"
+                >Contact</a
+              >
+            </div>
           </div>
         </div>
       </div>
